@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renjith's Pro Financial Tracker</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- SheetJS for Excel Exports natively -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Advanced Animated Background Elements -->
+    <div class="ambient-background">
+        <div class="ambient-orb orb-primary"></div>
+        <div class="ambient-orb orb-secondary"></div>
+        <div class="ambient-orb orb-accent"></div>
+    </div>
+
+    <div class="layout-wrapper">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar glass-panel">
+            <div class="brand">
+                <div class="brand-icon">₹</div>
+                <h2>Renjith's Tracker</h2>
+            </div>
+            <nav class="nav-links">
+                <a href="#dashboard" class="nav-btn active">Dashboard</a>
+                <a href="#insights" class="nav-btn">Smart Insights</a>
+                <a href="#transactions" class="nav-btn">Transactions</a>
+            </nav>
+
+            <!-- Data Vault Widget -->
+            <div class="data-vault">
+                <h4>Data Vault Backup</h4>
+                <p>Export records to Excel</p>
+                <div class="date-filters">
+                    <input type="date" id="export-start" class="vault-date" title="Start Date">
+                    <input type="date" id="export-end" class="vault-date" title="End Date">
+                </div>
+                <div class="vault-actions">
+                    <button id="btn-export" class="vault-btn export">Export Data (.xlsx)</button>
+                    <label for="file-import" class="vault-btn import">Restore Data (.xlsx)</label>
+                    <input type="file" id="file-import" accept=".xlsx" style="display: none;">
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Dashboard Area -->
+        <main class="dashboard-core">
+            <header class="page-header">
+                <div class="welcome-text">
+                    <h1>Executive Overview</h1>
+                    <p>Track, analyze, and optimize your financial flow.</p>
+                </div>
+            </header>
+
+            <!-- Dynamic KPI Metrics -->
+            <section class="kpi-container">
+                <div class="kpi-widget glass-panel">
+                    <h4>Total Balance</h4>
+                    <p class="kpi-amount highlight-blue" id="val-balance">₹0.00</p>
+                </div>
+                <div class="kpi-widget glass-panel">
+                    <h4>Gross Income</h4>
+                    <p class="kpi-amount highlight-green" id="val-income">₹0.00</p>
+                </div>
+                <div class="kpi-widget glass-panel">
+                    <h4>Total Expenditure</h4>
+                    <p class="kpi-amount highlight-red" id="val-expense">₹0.00</p>
+                </div>
+            </section>
+
+            <!-- Analytics Visualizations -->
+            <section class="analytics-grid" id="dashboard">
+                <div class="chart-box glass-panel">
+                    <h3>Cashflow Trends</h3>
+                    <div class="canvas-wrapper">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-box glass-panel">
+                    <h3>Expenditure Drilldown</h3>
+                    <div class="canvas-wrapper">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Central Data Entry & Record -->
+            <section class="operational-grid" id="transactions">
+                <!-- Transaction Form Entry -->
+                <div class="form-panel glass-panel">
+                    <h3>Register Activity</h3>
+                    <form id="ledger-form">
+                        <div class="input-row">
+                            <div class="input-block">
+                                <label>Flow Type</label>
+                                <select id="input-type" required>
+                                    <option value="expense">Expense</option>
+                                    <option value="income">Income</option>
+                                </select>
+                            </div>
+                            <div class="input-block">
+                                <label>Amount (₹)</label>
+                                <input type="number" id="input-amount" step="0.01" min="1" required placeholder="0.00">
+                            </div>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-block">
+                                <label>Category</label>
+                                <select id="input-category" required>
+                                    <option value="Housing">Housing</option>
+                                    <option value="Food">Food</option>
+                                    <option value="Transportation">Transportation</option>
+                                    <option value="Utilities">Utilities</option>
+                                    <option value="Entertainment">Entertainment</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="input-block">
+                                <label>Date</label>
+                                <input type="date" id="input-date" required>
+                            </div>
+                        </div>
+                        <div class="input-block full-width">
+                            <label>Description</label>
+                            <input type="text" id="input-desc" placeholder="Details of transaction..." required autocomplete="off">
+                        </div>
+                        <button type="submit" class="action-btn-primary">Append Transaction</button>
+                    </form>
+                </div>
+
+                <!-- Ledger Table -->
+                <div class="ledger-panel glass-panel">
+                    <h3>Transaction Ledger</h3>
+                    <div class="table-scroll">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Category</th>
+                                    <th>Amount</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ledger-body">
+                                <!-- JS Injection -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Diagnostic Insights -->
+            <section class="diagnostic-section glass-panel" id="insights">
+                <h3>AI Insights Engine</h3>
+                <div id="insight-results" class="insight-results">
+                    <!-- JS Injection -->
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
